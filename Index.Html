@@ -1,0 +1,87 @@
+<!-- Admin Login -->
+<div id="loginDiv" style="text-align:center;margin:20px;">
+<h2>Admin Login</h2>
+<input type="password" id="password" placeholder="Enter Password">
+<button onclick="login()">Login</button>
+<p id="loginMsg"></p>
+</div>
+
+<div id="adminDiv">
+<h2>Admin Panel</h2>
+<p>শুধু Admin ওয়েবসাইট চেঞ্জ করতে পারবে।</p>
+
+<h3>Cover Image</h3>
+<input type="text" id="coverURL" placeholder="Cover Image URL" value="YOUR_COVER_IMAGE.jpg">
+<button onclick="updateCover()">Update Cover</button>
+
+<h3>Members</h3>
+<script>
+for(let i=1;i<=8;i++){
+  document.write('<div style="margin:10px;">Member '+i+' Username: <input type="text" id="inputUser'+i+'" value="'+document.getElementById('username'+i)?.innerText+'"><br>Description: <textarea id="inputDesc'+i+'">'+document.getElementById('desc'+i)?.innerText+'</textarea><br><button onclick="updateMember('+i+')">Update</button></div>');
+}
+function updateMember(n){
+  document.getElementById('username'+n).innerText=document.getElementById('inputUser'+n).value;
+  document.getElementById('desc'+n).innerText=document.getElementById('inputDesc'+n).value;
+  alert('Member '+n+' updated!');
+}
+function updateCover(){
+  document.getElementById('coverImg').src=document.getElementById('coverURL').value;
+  alert('Cover Image updated!');
+}
+</script>
+
+<h3>Social Links</h3>
+Facebook Group: <input type="text" id="inputFbGroup" value="https://www.facebook.com/YOUR_GROUP_LINK"><br>
+Facebook Profile: <input type="text" id="inputFbProfile" value="https://www.facebook.com/YOUR_PROFILE_LINK"><br>
+Telegram Group: <input type="text" id="inputTgGroup" value="https://t.me/YOUR_TELEGRAM_GROUP"><br>
+<button onclick="updateLinks()">Update Links</button>
+<script>
+function updateLinks(){
+  document.getElementById('fbgroup').href=document.getElementById('inputFbGroup').value;
+  document.getElementById('fbprofile').href=document.getElementById('inputFbProfile').value;
+  document.getElementById('tgGroupLink').href=document.getElementById('inputTgGroup').value;
+  alert('Links updated!');
+}
+</script>
+
+</div>
+
+<script>
+// Admin login
+const ADMIN_PASSWORD = "alamin55992";
+function login(){
+  const pass = document.getElementById("password").value;
+  if(pass === ADMIN_PASSWORD){
+    document.getElementById("loginDiv").style.display="none";
+    document.getElementById("adminDiv").style.display="block";
+  } else {
+    document.getElementById("loginMsg").innerText="Wrong password!";
+  }
+}
+
+// Matrix background
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%";
+const fontSize=16;
+const columns=canvas.width/fontSize;
+const drops=[];
+for(let x=0;x<columns;x++) drops[x]=1;
+function draw(){
+  ctx.fillStyle="rgba(0,0,0,0.05)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#00ff00"; ctx.font=fontSize+"px monospace";
+  for(let i=0;i<drops.length;i++){
+    const text=letters[Math.floor(Math.random()*letters.length)];
+    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+    if(drops[i]*fontSize>canvas.height && Math.random()>0.975) drops[i]=0;
+    drops[i]++;
+  }
+}
+setInterval(draw,50);
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
+</script>
+
+</body>
+</html>
